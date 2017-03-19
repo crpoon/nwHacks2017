@@ -11,15 +11,45 @@ body {
     height: calc(~"100% - " @footer-height);
   }
 
+    .legend-label {
+        height: 15px;
+    }
+  .pepecoin {
+    vertical-align: bottom;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+     background-size: contain;
+                  background-image: url(../images/pepecoin.png);
+                  background-repeat: no-repeat;
+                  background-position: 50% 50%;
+  }
+
   .company-logo {
     display: inline-block;
     height: 30px;
     width: 30px;
+              background-size: contain;
+              background-image: url(../images/companylogo.jpg);
+              background-repeat: no-repeat;
+              background-position: 50% 50%;
+              &.large {
+                height: 50px;
+                width: 50px;
+              }
    }
 
   .company-logo-container {
+    padding-top: 15px;
     width: 100%;
-    height: 30px;
+    height: 50px;
+    .company-text {
+        padding-left: 10px;
+        line-height: 50px;
+        vertical-align: top;
+        font-size: 300%;
+        font-family: "Times New Roman", Times, sans-serif;
+    }
   }
 
   #main-header {
@@ -71,7 +101,9 @@ body {
     .tab-pane {
         &.active {
             visibility: visible;
+            pointer-events:initial;
         }
+        pointer-events: none;
         display: block;
          visibility: hidden;
         position: absolute;
@@ -90,9 +122,13 @@ body {
   .footer {
     opacity: 0.6;
     height: @footer-height;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
     border-top: solid 1px grey;
+    line-height: @footer-height;
+    .company-name {
+        vertical-align: top;
+    }
 
   }
 }

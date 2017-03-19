@@ -9,22 +9,25 @@ public class Stock {
 	private String ticker;
 	private Date date;
 	private double price;
+	private double curIncrease;
 	
 	/*	CONSTRUCTORS
 	 * 
 	 */
-	public Stock(String name, String ticker, Date date, double price){
+	public Stock(String name, String ticker, Date date, double price, double curIncrease){
 		this.name = name;
 		this.ticker = ticker;
 		this.date = date;
 		this.price = price;
+		this.curIncrease = curIncrease;
 	}
 	
-	public Stock(String name, String ticker, Long date, double price){
+	public Stock(String name, String ticker, Long date, double price, double curIncrease){
 		this.name = name;
 		this.ticker = ticker;
 		this.date = new Date(date);
 		this.price = price;
+		this.curIncrease = curIncrease;
 	}
 	
 	/*	Name: getName
@@ -92,5 +95,9 @@ public class Stock {
 	public void setPrice(double price){
 		this.price = price;
 	}
+
+	public double getCurIncrease() { return this.curIncrease; };
+
+	public void setCurIncrease(double curIncrease) { this.curIncrease = curIncrease; };
 
 }

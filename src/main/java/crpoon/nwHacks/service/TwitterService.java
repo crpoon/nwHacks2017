@@ -2,14 +2,20 @@ package crpoon.nwHacks.service;
 
 
 import com.google.common.collect.ImmutableList;
+import crpoon.nwHacks.client.TwitterClient;
+import crpoon.nwHacks.database.StockDao;
 import crpoon.nwHacks.database.StockInfoDao;
+import crpoon.nwHacks.model.Stock;
 import crpoon.nwHacks.model.StockInfo;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TwitterService {
 
+    private static final int MINUTE_COUNT = 5;
+    private static final int MAX_COUNT = 25;
+    private static final double STANDARD_TWEET_PER_UPDATE = 20.0;
     private static TwitterService instance;
 
     private TwitterService() {
@@ -35,4 +41,25 @@ public class TwitterService {
             StockInfoDao.getInstance().insertStockInfo(info);
         }
     }
+
+    public void performUpdateHashtag(String hashtag) {
+        int count = TwitterClient.getInstance().getTweets(hashtag);
+
+    }
+
+//    private double getPrice(int count, String hashtag) {
+//        double newCount = (double) count;
+//
+//        long oneDayTime = 1000 * 60 * 60 * 24;
+//        Date oneDayAgo = new Date(System.currentTimeMillis() - oneDayTime);
+//        List<Stock> stocks = StockDao.getInstance().getAllStockAfterDate(oneDayAgo);
+//        Stock mostRecentStock;
+//        if (stocks.size() > 0) {
+//            mostRecentStock = stocks.get(0);
+//        }
+//
+//
+//    }
+
+
 }

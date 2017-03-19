@@ -36,7 +36,9 @@ class TabModule {
             },
             yAxis: {
                 opposite: true,
-                title: "Rare Pepes (RP)"
+                title:  {
+                    text: "Rare Pepes (RP)"
+                }
             },
             legend: {
                 floating: true,

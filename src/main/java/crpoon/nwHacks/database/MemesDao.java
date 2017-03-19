@@ -4,18 +4,8 @@ import com.microsoft.sqlserver.jdbc.*;
 
 public class MemesDao {
 	// Replace server name, username, and password with your credentials  
-    public static void main(String[] args) {  
-        String connectionString =  
-            "jdbc:sqlserver://yourserver.database.windows.net:1433;"  
-            + "database=AdventureWorks;"  
-            + "user=yourusername@yourserver;"  
-            + "password=yourpassword;"  
-            + "encrypt=true;"  
-            + "trustServerCertificate=false;"  
-            + "hostNameInCertificate=*.database.windows.net;"  
-            + "loginTimeout=30;";  
-
-        connectionString =
+    public static void main(String[] args) {
+        String connectionString =
         		"jdbc:sqlserver://memestock.database.windows.net:1433;"
         		+ "database=MEMESTOCK;"
         		+ "user=sojuiswater@memestock;"

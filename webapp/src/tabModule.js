@@ -56,26 +56,36 @@ class TabModule {
             }
         };
 
+        if(tabId === "twitch") {
+            var startDate = new Date("2017-01-15T12:00:00.000Z");
+            var endDate = new Date("2017-01-19T00:00:00.000Z");
+            config.xAxis.min = startDate.valueOf();
+            config.xAxis.max = endDate.valueOf();
+        }
+
         apiInstance.get(tabId + "/stocks")
             .then(function(response) {
                 console.log(response);
                 var responseData = response.data;
                 for(var i = 0; i < responseData.length; i++) {
-                    initialData[i] = {
-                        id: responseData[i][0].indexName,
-                        name: responseData[i][0].indexName,
-                        displayName: responseData[i][0].indexName + " (" + responseData[i][0].ticker + ")"
+                    if(responseData[i] && responseData[i][0] && responseData[i][0].indexName) {
+                        initialData[i] = {
+                                        id: responseData[i][0].indexName,
+                                        name: responseData[i][0].indexName,
+                                        displayName: responseData[i][0].indexName + " (" + responseData[i][0].ticker + ")"
+                                    }
+                                    var data = [];
+                                    for(var j = responseData[i].length - 1; j >= 0; j--) {
+                                        var date = new Date(responseData[i][j].timeStamp);
+                                        data[responseData[i].length - j - 1] = {
+                                            x: date.valueOf(),
+                                            y: responseData[i][j].price
+                                        }
+                                    }
+                                    initialData[i].data = data;
+                                    initialData[i].increase = responseData[i][j+1].increase;
                     }
-                    var data = [];
-                    for(var j = responseData[i].length - 1; j >= 0; j--) {
-                        var date = new Date(responseData[i][j].timeStamp);
-                        data[responseData[i].length - j - 1] = {
-                            x: date.valueOf(),
-                            y: responseData[i][j].price
-                        }
-                    }
-                    initialData[i].data = data;
-                    initialData[i].increase = responseData[i][j+1].increase;
+
                 }
                 config.series = initialData;
 
@@ -101,6 +111,7 @@ class TabModule {
                                         for(var i = 0; i < responseData.length; i++) {
                                             var name = responseData[i].indexName;
 
+                                            console.log(Highcharts.charts);
                                             var series = Highcharts.charts[chartNum].get(name);
                                             var date = new Date(responseData[i].timeStamp);
                                             var newPoint = {

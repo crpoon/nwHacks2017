@@ -72,13 +72,4 @@ private static TwitterClient instance;
 		}
 		return 0;
 	}
-
-	class NonceGenerator {
-
-		private SecureRandom random = new SecureRandom();
-
-		public String createNonce() {
-			return new BigInteger(130, random).toString(32);
-		}
-	}
 }

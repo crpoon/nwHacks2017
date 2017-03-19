@@ -1,9 +1,10 @@
+import '../images/Kappa.png'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css'
+
 import React from 'react';
 import Chart from "./chart"
 import ReactDOM from 'react-dom';
-import App from './App';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css'
 import './index.css';
 
 var options = {
@@ -57,9 +58,3 @@ var options = {
 var element = React.createElement(Chart, { container: 'chart', options: options });
 ReactDOM.render(element, document.getElementsByClassName('tab-pane active')[0]);
 
-//ReactDOM.render(
-//  <App />,
-//  document.getElementById('root')
-//  <Chart />,
-//  document.getElementById("chart")
-//);

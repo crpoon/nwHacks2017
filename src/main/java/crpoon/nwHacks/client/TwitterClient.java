@@ -18,6 +18,9 @@ public class TwitterClient {
 
 private static TwitterClient instance;
 
+	//https://twitter.com/realDonaldTrump/status/843088518339612673
+	private static final long baseTweetId = 843088518339612673L;
+
 	private static final String consumerKey = "fUgJpMNuroKJ9uECAbwOo7TjQ";
 	private static final String consumerSecret = "ZlVzkLZDVFvX2I2DzHEhLk7X305a3rrrAObDNCLITgF1ReUJ2V";
 	private static final String token = "843243416007802880-4D9S2x368zSDcsrwBLPiGmWJwS9vIJd";
@@ -51,12 +54,16 @@ private static TwitterClient instance;
 			Twitter twitter = factory.getInstance();
 
 			Query query = new Query("#trump");
+			query.setSinceId(baseTweetId);
+			query.count(100);
 			QueryResult result = twitter.search(query);
-			for (Status status : result.getTweets()) {
-				System.out.println(status.getText());
-			}
+//			for (Status status : result.getTweets()) {
+//				System.out.println(status.getText());
+//			}
+			return result.getTweets().size() + "";
 		} catch (TwitterException e) {
 			// TODO: Write a exception to handle
+			System.out.println("rip");
 		}
 		return "";
 	}

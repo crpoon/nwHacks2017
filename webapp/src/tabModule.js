@@ -67,15 +67,15 @@ class TabModule {
                         displayName: responseData[i][0].indexName + " (" + responseData[i][0].ticker + ")"
                     }
                     var data = [];
-                    for(var j = 0; j < responseData[i].length; j++) {
+                    for(var j = responseData[i].length - 1; j >= 0; j--) {
                         var date = new Date(responseData[i][j].timeStamp);
-                        data[j] = {
+                        data[responseData[i].length - j - 1] = {
                             x: date.valueOf(),
                             y: responseData[i][j].price
                         }
                     }
                     initialData[i].data = data;
-                    initialData[i].increase = responseData[i][j-1].increase;
+                    initialData[i].increase = responseData[i][j+1].increase;
                 }
                 config.series = initialData;
 
@@ -91,26 +91,29 @@ class TabModule {
                 console.log(error);
             });
 
-        setInterval(function() {
-            apiInstance.get(tabId + "/stocks/recent")
-                .then(function(response) {
-                    console.log(response);
-                    var responseData = response.data;
-                    for(var i = 0; i < responseData.length; i++) {
-                        var name = responseData[i].indexName;
 
-                        var series = Highcharts.charts[chartNum].get(name);
-                        var date = new Date(responseData[i].timeStamp);
-                        var newPoint = {
-                            x: date.valueOf(),
-                            y: responseData[i].price
+                        if(tabId !== "twitch") {
+                            setInterval(function() {
+                                apiInstance.get(tabId + "/stocks/recent")
+                                    .then(function(response) {
+                                        console.log(response);
+                                        var responseData = response.data;
+                                        for(var i = 0; i < responseData.length; i++) {
+                                            var name = responseData[i].indexName;
+
+                                            var series = Highcharts.charts[chartNum].get(name);
+                                            var date = new Date(responseData[i].timeStamp);
+                                            var newPoint = {
+                                                x: date.valueOf(),
+                                                y: responseData[i].price
+                                            }
+                                            var shift = series.data.length > 36;
+                                            series.addPoint(newPoint, true, shift);
+
+                                        }
+                                    })
+                            }, 30000)
                         }
-                        var shift = series.data.length > 36;
-                        series.addPoint(newPoint, true, shift);
-
-                    }
-                })
-        }, 30000)
 
       }
 

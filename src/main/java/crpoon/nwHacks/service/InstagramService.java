@@ -34,7 +34,7 @@ public class InstagramService extends Service {
         StockInfo selfies = new StockInfo("Selfies", "SELF", instagramSector, "");
         StockInfo blessed = new StockInfo("Blessed", "BLES", instagramSector, "");
         StockInfo igers = new StockInfo("Igers", "IGER", instagramSector, "");
-        StockInfo nofilter = new StockInfo("No Filter", "NOF", instagramSector, "");
+        StockInfo nofilter = new StockInfo("No_Filter", "NOF", instagramSector, "");
 
         List<StockInfo> infos = ImmutableList.of(selfies, blessed, igers, nofilter);
         for (StockInfo info : infos) {
@@ -52,6 +52,9 @@ public class InstagramService extends Service {
         String ticker = info.getTicker();
         InstagramInfoDao.getInstance().updateInstagramInfo(new InstagramInfo(hashtag, ticker, currentMention, new Date()));
         int currentIncrease = currentMention - lastMention;
+        System.out.println("LastMention: "+ lastMention);
+        System.out.println("CurrentMention: "+ currentMention);
+        System.out.println("CurrentIncrease: "+ currentIncrease);
         return currentIncrease;
 
     }

@@ -1,5 +1,6 @@
 package crpoon.nwHacks;
 
+import crpoon.nwHacks.client.InstagramClient;
 import crpoon.nwHacks.client.TwitterClient;
 import crpoon.nwHacks.service.TwitterService;
 

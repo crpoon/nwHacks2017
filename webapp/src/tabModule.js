@@ -77,9 +77,13 @@ class TabModule {
             },
             legend: {
                 floating: true,
+                useHTML: true,
                 layout: 'vertical',
                 align: 'left',
-                verticalAlign: 'top'
+                verticalAlign: 'top',
+                labelFormatter: function() {
+                    return "<div class'legend-label'><span>" + this.options.displayName + "</span><div class='pepecoin'></div></div>";
+                }
             },
 
             plotOptions: {

@@ -40,7 +40,7 @@ public class TwitterService extends Service {
             StockInfoDao.getInstance().updateStockInfo(info);
 
             TwitterSince since = new TwitterSince(info.getName(), baseTweetId);
-            TwitterDao.getInstance().insertTwitterSince(since);
+            TwitterDao.getInstance().updateTwitterSince(since);
         }
 
     }

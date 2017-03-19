@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Path("instagram/")
 public class InstagramController {
 	
@@ -51,5 +50,4 @@ public class InstagramController {
 		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON)
 				.header("Access-Control-Allow-Origin", "*").build();
 	}
-
 }

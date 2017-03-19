@@ -1,6 +1,8 @@
 package crpoon.nwHacks;
 
 import crpoon.nwHacks.controller.InstagramController;
+import crpoon.nwHacks.controller.TwitchController;
+import crpoon.nwHacks.controller.TwitterController;
 import crpoon.nwHacks.server.TwitterServer;
 import crpoon.nwHacks.server.InstagramServer;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -19,27 +21,14 @@ public class App
 
     public static final String BASE_URI = "http://localhost:8080/";
 
-//    public static void main( String[] args )
-//    {
-//        System.out.println( "Hello World!" );
-//        //TwitterServer.getInstance().start();
-//        //InstagramServer.getInstance().start();
-//        System.out.println(InstagramController.getInstance().getRecent());
-//
-//        System.out.println("THIS SHOULD NEVER RUN! YOU DUN GOOFED");
-//    }
-
 
     public static HttpServer startServer() {
-        // create a resource config that scans for JAX-RS resources and providers
-        // in com.underdog.jersey.grizzly package
-        final ResourceConfig rc = new ResourceConfig();//.packages("crpoon.nwHacks");
-        rc.registerClasses(InstagramController.class);
+        final ResourceConfig rc = new ResourceConfig();
+        rc.registerClasses(InstagramController.class, TwitterController.class, TwitchController.class);
 
-        // create and start a new instance of grizzly http server
-        // exposing the Jersey application at BASE_URI
+//        //TwitterServer.getInstance().start();
+//        //InstagramServer.getInstance().start();
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-//        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI));
     }
 
     public static void main(String[] args) throws IOException {

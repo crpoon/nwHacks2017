@@ -80,7 +80,7 @@ public class chatlogParser {
 	public Date stringToDate(String message) {
 		int startIndex = message.indexOf("[");
 		int endIndex = message.indexOf("]");
-		String dateString = message.substring(startIndex + 1, endIndex - 10);
+		String dateString = message.substring(startIndex + 1, startIndex + 13);
 		//System.out.println(dateString);
 		DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh");
 		Date dateObj = null;

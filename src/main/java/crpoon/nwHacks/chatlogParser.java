@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,38 +42,66 @@ public class chatlogParser {
 		    Map<String, Integer> memeCount = new HashMap<>();
 		    resetMemeCount(memeCount, memes);
 		    Date currentHour = new Date(0);
+		    Date lineDate = null;
 		    while ((line = br.readLine()) != null) {
 		    	// Parse Line to find hour current DateHour
-		    	
+		    	lineDate = stringToDate(line);
 		    	// Check if line's datehour is greater than current hour
-		    	if( currentHour.getTime() < 0){
+		    	if( currentHour.getTime() != lineDate.getTime()){
 		    	//	output counts into the hourly meme list
 		    		for(int i=0; i<memes.size(); i++){
-		    			resultCount.add(new HourlyMeme(currentHour, memes.get(i), memeCount.get(memes.get(i))));
+		    			System.out.println(i);
+		    			System.out.println(resultCount == null);
+		    			System.out.println(currentHour == null);
+		    			System.out.println(memeCount == null);
+		    			System.out.println(memes.get(i).toLowerCase());
+		    			System.out.println(memeCount.get(memes.get(i).toLowerCase()));
+		    			resultCount.add(new HourlyMeme(currentHour, memes.get(i).toLowerCase(), memeCount.get(memes.get(i).toLowerCase())));
 		    		}
 		    	//  reset meme count
 		    	resetMemeCount(memeCount, memes);
-		    	//  set current hour
+		    	currentHour = lineDate;
 		    	}
 		    	
 		    	line = line.toLowerCase();
 		    	
 		    	for(int i=0; i<memes.size(); i++){
 		    		// For each meme count occurances
-		    		int appearanceCount = findMemesInString(memes.get(i), line);
+		    		int appearanceCount = findMemesInString(memes.get(i).toLowerCase(), line);
 		    		// Increment memecount
-		    		memeCount.put(memes.get(i), memeCount.get(memes.get(i) + appearanceCount));
+		    		memeCount.put(memes.get(i).toLowerCase(), memeCount.get(memes.get(i).toLowerCase()) + appearanceCount);
 		    	}
 		    }
+		    // Parse Line to find hour current DateHour
+		    
+	    	for(int i=0; i<memes.size(); i++){
+	    		resultCount.add(new HourlyMeme(currentHour, memes.get(i).toLowerCase(), memeCount.get(memes.get(i).toLowerCase())));
+	    	}
 		    br.close();
 		}
 		
 		return resultCount;
 	}
 	
+	public Date stringToDate(String message) {
+		int startIndex = message.indexOf("[");
+		int endIndex = message.indexOf("]");
+		String dateString = message.substring(startIndex + 1, endIndex - 10);
+		//System.out.println(dateString);
+		DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh");
+		Date dateObj = null;
+		try {
+			dateObj = formatter.parse(dateString);
+			return dateObj;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return dateObj;
+	}
+	
 	public void resetMemeCount(Map<String, Integer> memeCount, List<String> memes){
 		for(int i=0; i<memes.size(); i++){
-			memeCount.put(memes.get(i), 0);
+			memeCount.put(memes.get(i).toLowerCase(), new Integer(0));
 		}
 		return;
 	}

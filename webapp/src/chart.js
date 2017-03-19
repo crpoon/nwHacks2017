@@ -17,13 +17,9 @@ class Chart extends Component {
         );
     }
     //Destroy chart before unmount.
-    componentWillUnmount() {
-        this.chart.destroy();
-    }
-
-    getChart() {
-        return this.chart;
-    }
+//    componentWillUnmount() {
+//        this.chart.destroy();
+//    }
     //Create the div which the chart will be rendered to.
     render() {
         return React.createElement('div', { id: this.props.container });

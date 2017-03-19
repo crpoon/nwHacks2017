@@ -13,6 +13,12 @@ public class HourlyMeme {
 		this.count = count;
 	}
 	
+	public HourlyMeme(Date hour, String meme, Integer integer){
+		this.hour = hour;
+		this.meme = meme;
+		this.count = integer;
+	}
+	
 	public Date getDate(){
 		return this.hour;
 	}

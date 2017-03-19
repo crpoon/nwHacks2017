@@ -20,6 +20,10 @@ class Chart extends Component {
     componentWillUnmount() {
         this.chart.destroy();
     }
+
+    getChart() {
+        return this.chart;
+    }
     //Create the div which the chart will be rendered to.
     render() {
         return React.createElement('div', { id: this.props.container });

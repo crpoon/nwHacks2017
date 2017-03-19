@@ -8,12 +8,22 @@
     "react-scripts": "0.9.4"
   },
   "devDependencies": {
+    "node-sass": "^4.5.0",
+    "npm-run-all": "^4.0.2"
   },
   "scripts": {
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
     "start": "react-scripts start",
+    "build-js": "npm run build-css && react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "postinstall": "npm run build"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
   }
 }

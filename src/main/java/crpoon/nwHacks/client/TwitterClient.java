@@ -3,11 +3,7 @@ package crpoon.nwHacks.client;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import twitter4j.*;
-import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -18,18 +14,15 @@ public class TwitterClient {
 
 private static TwitterClient instance;
 
-	//https://twitter.com/realDonaldTrump/status/843088518339612673
-	private static final long baseTweetId = 843088518339612673L;
+	// https://twitter.com/CarlosandAnaC/status/843310363609370624
+	private static final long baseTweetId = 843310363609370624L;
 
 	private static final String consumerKey = "fUgJpMNuroKJ9uECAbwOo7TjQ";
 	private static final String consumerSecret = "ZlVzkLZDVFvX2I2DzHEhLk7X305a3rrrAObDNCLITgF1ReUJ2V";
 	private static final String token = "843243416007802880-4D9S2x368zSDcsrwBLPiGmWJwS9vIJd";
 	private static final String tokenSecret = "BOX4oY69vUPkt5I1c9FdHqqr4ktE3KEwmViZTwdW3eNXQ";
 	
-	private Client client;
-	
 	private TwitterClient() {
-		client = Client.create();
 	}
 	
 	public static TwitterClient getInstance() {
@@ -48,24 +41,36 @@ private static TwitterClient instance;
 		return cb.build();
 	}
 
-	public String getTweets(String hashtag) {
+	public int getTweets(String hashtag) {
 		try {
 			TwitterFactory factory = new TwitterFactory(createAuthConfiguration());
 			Twitter twitter = factory.getInstance();
 
-			Query query = new Query("#trump");
-			query.setSinceId(baseTweetId);
+			int count = 0;
+			long sinceId = baseTweetId;
+			Query query = new Query(hashtag);
+			query.setSinceId(sinceId);
 			query.count(100);
-			QueryResult result = twitter.search(query);
-//			for (Status status : result.getTweets()) {
-//				System.out.println(status.getText());
-//			}
-			return result.getTweets().size() + "";
+
+			while (query != null) {
+				QueryResult result = twitter.search(query);
+				count += result.getTweets().size();
+				Status tweet = result.getTweets().get(0);
+
+				sinceId = tweet.getId();
+				query = result.nextQuery();
+				if (query != null) {
+					query.setSinceId(sinceId);
+					if (count >= 500) {
+						break;
+					}
+				}
+			}
+			return count;
 		} catch (TwitterException e) {
 			// TODO: Write a exception to handle
-			System.out.println("rip");
 		}
-		return "";
+		return 0;
 	}
 
 	class NonceGenerator {

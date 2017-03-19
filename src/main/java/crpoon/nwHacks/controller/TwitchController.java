@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import crpoon.nwHacks.model.StockFrontEnd;
 import crpoon.nwHacks.service.FrontEndService;
+import crpoon.nwHacks.service.TwitchFrontEndService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,14 +27,14 @@ public class TwitchController {
     public Response getHistorical() {
         System.out.println("Getting History for Twitch");
         Gson gson = new Gson();
-        List<StockFrontEnd> kappa = FrontEndService.getInstance().getStocksToFrontEnd("kappa");
-        List<StockFrontEnd> vohiyo = FrontEndService.getInstance().getStocksToFrontEnd("vohiyo");
-        List<StockFrontEnd> minglee = FrontEndService.getInstance().getStocksToFrontEnd("minglee");
-        List<StockFrontEnd> pogchamp = FrontEndService.getInstance().getStocksToFrontEnd("pogchamp");
-        List<StockFrontEnd> biblethump = FrontEndService.getInstance().getStocksToFrontEnd("biblethump");
-        List<StockFrontEnd> fourhead = FrontEndService.getInstance().getStocksToFrontEnd("4head");
-        List<StockFrontEnd> salt = FrontEndService.getInstance().getStocksToFrontEnd("salt");
-        List<StockFrontEnd> trigger = FrontEndService.getInstance().getStocksToFrontEnd("trigger");
+        List<StockFrontEnd> kappa = TwitchFrontEndService.getInstance().getStocksToFrontEnd("kappa");
+        List<StockFrontEnd> vohiyo = TwitchFrontEndService.getInstance().getStocksToFrontEnd("vohiyo");
+        List<StockFrontEnd> minglee = TwitchFrontEndService.getInstance().getStocksToFrontEnd("minglee");
+        List<StockFrontEnd> pogchamp = TwitchFrontEndService.getInstance().getStocksToFrontEnd("pogchamp");
+        List<StockFrontEnd> biblethump = TwitchFrontEndService.getInstance().getStocksToFrontEnd("biblethump");
+        List<StockFrontEnd> fourhead = TwitchFrontEndService.getInstance().getStocksToFrontEnd("4head");
+        List<StockFrontEnd> salt = TwitchFrontEndService.getInstance().getStocksToFrontEnd("salt");
+        List<StockFrontEnd> trigger = TwitchFrontEndService.getInstance().getStocksToFrontEnd("trigger");
 
         List<List<StockFrontEnd>> ret = new ArrayList<>();
         ret.add(kappa);

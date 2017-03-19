@@ -140,8 +140,12 @@ class TabModule {
                                             }
 
                                             console.log(tabId);
-                                            var shift = ((series.data) ? series.data.length : 0) > 240;
-                                            series.addPoint(newPoint, true, shift);
+
+                                            if (series && series.data) {
+                                                 var shift = series.data.length> 240;
+                                                 series.addPoint(newPoint, true, shift);
+                                            }
+
 
                                         }
                                     })

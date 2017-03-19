@@ -6,6 +6,8 @@ import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.List;
+
 public class TwitterClient {
 
 private static TwitterClient instance;
@@ -49,8 +51,12 @@ private static TwitterClient instance;
 			while (query != null) {
 				QueryResult result = twitter.search(query);
 				count += result.getTweets().size();
-				Status tweet = result.getTweets().get(0);
+				List<Status> tweets = result.getTweets();
+				if (tweets == null || tweets.isEmpty()) {
+					break;
+				}
 
+				Status tweet = tweets.get(0);
 				sinceId = tweet.getId();
 				if (setSinceId == null) {
 					setSinceId = tweet.getId();
@@ -63,6 +69,9 @@ private static TwitterClient instance;
 						break;
 					}
 				}
+			}
+			if (setSinceId == null) {
+				setSinceId = sinceId;
 			}
 			TwitterSince ts = new TwitterSince(hashtag, setSinceId);
 			TwitterDao.getInstance().updateTwitterSince(ts);

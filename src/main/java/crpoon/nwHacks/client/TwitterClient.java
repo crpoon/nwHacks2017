@@ -65,7 +65,7 @@ private static TwitterClient instance;
 				}
 			}
 			TwitterSince ts = new TwitterSince(hashtag, setSinceId);
-			TwitterDao.getInstance().insertTwitterSince(ts);
+			TwitterDao.getInstance().updateTwitterSince(ts);
 
 			return count;
 		} catch (TwitterException e) {

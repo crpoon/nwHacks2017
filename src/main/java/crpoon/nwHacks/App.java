@@ -15,7 +15,8 @@ public class App
         System.out.println( "Hello World!" );
         TwitterService.getInstance().initializeTwitterStockInfo();
         System.out.println("YAAAAAAS");
-        System.out.println(TwitterClient.getInstance().getTweets("#fakenews"));
+        TwitterService ts = TwitterService.getInstance();
+        ts.calculateAndPersistStock("Fake News");
         System.out.println("YAAAAAASssssss");
 
         InstagramClient.getInstance().getInstasTags("selfies");

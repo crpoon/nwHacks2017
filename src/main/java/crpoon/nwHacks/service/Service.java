@@ -14,7 +14,6 @@ import java.util.List;
  */
 public abstract class Service {
 
-    protected static final int MINUTE_COUNT = 5;
     protected static final int MAX_COUNT = 25;
 
     private static final long ONE_HOUR = 1000 * 60 * 60;
@@ -27,9 +26,7 @@ public abstract class Service {
         for (Stock stock : stocks) {
             sumIncrease += stock.getCurIncrease();
         }
-        double averageIncrease = sumIncrease / stocks.size();
-        double multiplier = (MAX_COUNT - 1) / MAX_COUNT;
-        return multiplier * averageIncrease;
+        return sumIncrease / stocks.size();
     }
 
     public double getCurrentIncreasePerHour(String hashtag, Stock lastStock) {
@@ -41,8 +38,7 @@ public abstract class Service {
         double diffTime = System.currentTimeMillis() - lastStockDate.getTime();
         diffTime = ONE_HOUR / diffTime;
 
-        double multiplier = 1 / MAX_COUNT;
-        return multiplier * count * diffTime;
+        return count * diffTime;
     }
 
     public void calculateAndPersistStock(String hashtag) {
@@ -67,7 +63,10 @@ public abstract class Service {
     }
 
     private double calculatePrice(double avgIncPerHour, double curIncPerHour, Stock lastStock) {
-        return lastStock.getPrice() + (curIncPerHour - avgIncPerHour);
+        double fullAverage = avgIncPerHour;
+        double averageWithCur = (((MAX_COUNT - 1)/ MAX_COUNT) * avgIncPerHour) + ((1 / MAX_COUNT) * curIncPerHour);
+
+        return lastStock.getPrice() + (averageWithCur - fullAverage);
     }
 
     public abstract int getCurrentIncrease(String hashtag);

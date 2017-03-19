@@ -52,9 +52,9 @@ public class InstagramService extends Service {
         String ticker = info.getTicker();
         InstagramInfoDao.getInstance().updateInstagramInfo(new InstagramInfo(hashtag, ticker, currentMention, new Date()));
         int currentIncrease = currentMention - lastMention;
-        System.out.println("LastMention: "+ lastMention);
-        System.out.println("CurrentMention: "+ currentMention);
-        System.out.println("CurrentIncrease: "+ currentIncrease);
+        //System.out.println("LastMention: "+ lastMention);
+        //System.out.println("CurrentMention: "+ currentMention);
+        //System.out.println("CurrentIncrease: "+ currentIncrease);
         return currentIncrease;
 
     }

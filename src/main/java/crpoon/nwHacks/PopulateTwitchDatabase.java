@@ -99,7 +99,7 @@ public class PopulateTwitchDatabase {
 				
 				double diff = currentCount - previousCount;
 				previousStock.setPrice( diff / Math.max(currentCount, previousCount)* 10+ previousPrice);
-				
+				previousStock.setCurIncrease(diff);
 				previousCount = previousStock.getCurIncrease();
 				previousPrice = previousStock.getPrice();
 			}
@@ -108,6 +108,7 @@ public class PopulateTwitchDatabase {
 				databaseDao.updateStockPrice(stockhistory.get(j));
 			}
 		}
+		
 		
 		System.out.println("Finished All!");
 	}

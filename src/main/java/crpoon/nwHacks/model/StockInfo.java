@@ -36,7 +36,7 @@ public class StockInfo {
 	 * 	Purpose: Returns the name of the stock
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	
 	/*	#### SHOULD NOT BE USED ####
@@ -57,7 +57,7 @@ public class StockInfo {
 	 * 	Purpose: Returns the ticker of the stock
 	 */
 	public String getTicker() {
-		return ticker;
+		return this.ticker;
 	}
 
 	/*	#### SHOULD NOT BE USED ####
@@ -78,7 +78,7 @@ public class StockInfo {
 	 * 	Purpose: Gets the sector ids of the stock
 	 */
 	public List<String> getSectorIdsAsList() {
-		return sectorIds;
+		return this.sectorIds;
 	}
 	
 	/*	Name: getSectorIdsAsString
@@ -167,7 +167,7 @@ public class StockInfo {
 	 *			 image/icon
 	 */
 	public String getImgUrl() {
-		return imgUrl;
+		return this.imgUrl;
 	}
 
 	/*	Name: setImgUrl

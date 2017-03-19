@@ -49,7 +49,7 @@ public class StockInfoDao {
 	
 	/*	Name: getAllStockInfo()
 	 * 	Params:
-	 * 	Return: List<String>
+	 * 	Return: List<StockInfo>
 	 * 
 	 * 	Purpose: Queries and returns all stocks and 
 	 * 			 their info from the database.

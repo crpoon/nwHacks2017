@@ -1,21 +1,14 @@
 package crpoon.nwHacks.client;
 
-import javax.ws.rs.core.MultivaluedMap;
-
-import com.sun.jersey.api.client.Client;
+import crpoon.nwHacks.database.TwitterDao;
+import crpoon.nwHacks.model.TwitterSince;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-
 public class TwitterClient {
 
 private static TwitterClient instance;
-
-	// https://twitter.com/CarlosandAnaC/status/843310363609370624
-	private static final long baseTweetId = 843310363609370624L;
 
 	private static final String consumerKey = "fUgJpMNuroKJ9uECAbwOo7TjQ";
 	private static final String consumerSecret = "ZlVzkLZDVFvX2I2DzHEhLk7X305a3rrrAObDNCLITgF1ReUJ2V";
@@ -47,10 +40,11 @@ private static TwitterClient instance;
 			Twitter twitter = factory.getInstance();
 
 			int count = 0;
-			long sinceId = baseTweetId;
+			long sinceId = TwitterDao.getInstance().getTwitterSince(hashtag).getSinceId();
 			Query query = new Query(hashtag);
 			query.setSinceId(sinceId);
 			query.count(100);
+			Long setSinceId = null;
 
 			while (query != null) {
 				QueryResult result = twitter.search(query);
@@ -58,6 +52,10 @@ private static TwitterClient instance;
 				Status tweet = result.getTweets().get(0);
 
 				sinceId = tweet.getId();
+				if (setSinceId == null) {
+					setSinceId = tweet.getId();
+				}
+
 				query = result.nextQuery();
 				if (query != null) {
 					query.setSinceId(sinceId);
@@ -66,6 +64,9 @@ private static TwitterClient instance;
 					}
 				}
 			}
+			TwitterSince ts = new TwitterSince(hashtag, setSinceId);
+			TwitterDao.getInstance().insertTwitterSince(ts);
+
 			return count;
 		} catch (TwitterException e) {
 			// TODO: Write a exception to handle

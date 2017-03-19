@@ -1,5 +1,7 @@
 package crpoon.nwHacks.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StockInfo {
@@ -19,44 +21,12 @@ public class StockInfo {
 		this.imgUrl = imgUrl;
 	}
 	
-	/*	#### INCOMPLETE ####
-	 * 		Implement Database Portion
-	 * 		Check if info exists
-	 * 
-	 * Name: getStockInfoByName
-	 * 	Param: String name
-	 * 	Return: StockInfo
-	 * 
-	 * 	Purpose: Given a database name,
-	 * 			 retrieve the stock info
-	 * 			 from the database.
-	 */
-	public static StockInfo getStockInfoByName(String name){
-		String db_ticker = null;
-		List<String> db_sectorIds = null;
-		String db_imgUrl = null;
-
-		return new StockInfo(name, db_ticker, db_sectorIds, db_imgUrl);
-	}
-
-	/*	#### INCOMPLETE ####
-	 * 		Implement Database Portion
-	 * 		Check if info exists
-	 * 
-	 * Name: getStockInfoByTicker
-	 * 	Param: String ticker
-	 * 	Return: StockInfo
-	 * 
-	 * 	Purpose: Given a database ticker,
-	 * 			 retrieve the stock info
-	 * 			 from the database.
-	 */
-	public static StockInfo getStockInfoByTicker(String ticker){
-		String db_name = null;
-		List<String> db_sectorIds = null;
-		String db_imgUrl = null;
-
-		return new StockInfo(db_name, ticker, db_sectorIds, db_imgUrl);
+	public StockInfo(String name, String ticker, String sectorIds, String imgUrl){
+		this.name = name;
+		this.ticker = ticker;
+		List<String> result = Arrays.asList(sectorIds.trim().toLowerCase().split("\\s+"));
+		this.sectorIds = result;
+		this.imgUrl = imgUrl;
 	}
 	
 	/*	Name: getName
@@ -69,13 +39,14 @@ public class StockInfo {
 		return name;
 	}
 	
-	/*	Name: setName
+	/*	#### SHOULD NOT BE USED ####
+	 * 	Name: setName
 	 * 	Param:	String name
 	 * 	Return: 
 	 * 
 	 * 	Purpose: Sets the name of the stock
 	 */
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 	
@@ -89,40 +60,71 @@ public class StockInfo {
 		return ticker;
 	}
 
-	/*	Name: setTicker
+	/*	#### SHOULD NOT BE USED ####
+	 * 	Name: setTicker
 	 * 	Param:	String ticker
 	 * 	Return: 
 	 * 
 	 * 	Purpose: Sets the ticker of the stock
 	 */
-	public void setTicker(String ticker) {
+	private void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
 	
-	/*	Name: getSectorIds
+	/*	Name: getSectorIdsAsList
 	 * 	Param:
 	 * 	Return: List<String> 
 	 * 
 	 * 	Purpose: Gets the sector ids of the stock
 	 */
-	public List<String> getSectorIds() {
+	public List<String> getSectorIdsAsList() {
 		return sectorIds;
 	}
 	
-	/*	Name: setSectorIds
+	/*	Name: getSectorIdsAsString
+	 * 	Param:
+	 * 	Return: String
+	 * 
+	 * 	Purpose: Gets the sector ids of the stock
+	 * 			as a single string with each sector
+	 * 			separated by a whitespace.
+	 */
+	public String getSectorIdsAsString(){
+		String result = new String();
+		for(int i=0; i<sectorIds.size(); i++){
+			result = result + sectorIds.get(i) + " ";
+		}
+		return result.trim();
+	}
+	
+	/*	Name: setSectorIdsAsList
 	 * 	Param: List<String> sectorIds
 	 * 	Return: 
 	 * 
-	 * 	Purpose: Sets the sector ids of the stock
+	 * 	Purpose: Goes through the list and make them all lowercase.
+	 * 			Then sets the sector ids of the stock.
 	 */
-	public void setSectorIds(List<String> sectorIds) {
+	public void setSectorIdsAsList(List<String> sectorIds) {
+		for(int i=0; i<sectorIds.size(); i++){
+			sectorIds.set(i, sectorIds.get(i).toLowerCase());
+		}
 		this.sectorIds = sectorIds;
 	}
 	
-	/* #### INCOMPLETE ####
-	 * 	May need to add functionality to update DB
+	/*	Name: setSectoridsAsString
+	 * 	Param: String sectorIds
+	 * 	Return: 
 	 * 
-	 * Name: addSectorId
+	 * 	Purpose: Given an input string, makes string lowercase,
+	 * 			separate by whitespace and set the resultant list
+	 * 			as this stocks' sectorId
+	 */
+	public void setSectorIdsAsString(String sectorIds){
+		List<String> result = Arrays.asList(sectorIds.trim().toLowerCase().split("\\s+"));
+		this.sectorIds = result;
+	}
+
+	/* Name: addSectorId
 	 * Param: String newSectorId
 	 * Return: Void
 	 * 
@@ -140,10 +142,7 @@ public class StockInfo {
 		return;
 	}
 	
-	/* #### INCOMPLETE ####
-	 * 		May need to add functionality to update DB
-	 * 
-	 * Name: removeSectorId
+	/* Name: removeSectorId
 	 * Param: String removeId
 	 * Return: Void
 	 * 
@@ -182,4 +181,5 @@ public class StockInfo {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+
 }

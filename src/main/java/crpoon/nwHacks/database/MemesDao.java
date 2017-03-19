@@ -1,6 +1,6 @@
 package crpoon.nwHacks.database;
 import java.sql.*;
-import com.microsoft.sqlserver.jdbc.*;
+//import com.microsoft.sqlserver.jdbc.*;
 
 public class MemesDao {
 	// Replace server name, username, and password with your credentials  

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,14 @@ public class PopulateTwitchDatabase {
 		List<File> files = new ArrayList<File>();
 		listf(folderName, files);
 		
-		String[] list = {"4head", "salt", "trigger"};
+		String[] list = {"kappa", "vohiyo", "minglee", "pogchamp", "biblethump", "4head", "salt", "trigger"};
 		List<String> memeList = Arrays.asList(list);
 		Map<String, String> memeTicker = new HashMap<>();
-		//memeTicker.put("kappa", "KPPA");
-		//memeTicker.put("vohiyo", "VHYO");
-		//memeTicker.put("elegiggle", "ELGL");
-		//memeTicker.put("minglee", "MNLE");
-		//memeTicker.put("kreygasm", "KGSM");
-		//memeTicker.put("pogchamp", "PGCHMP");
-		//memeTicker.put("biblethump", "BBTHMP");
+		memeTicker.put("kappa", "KPPA");
+		memeTicker.put("vohiyo", "VHYO");
+		memeTicker.put("minglee", "MNLE");
+		memeTicker.put("pogchamp", "PGCHMP");
+		memeTicker.put("biblethump", "BBTHMP");
 		memeTicker.put("4head", "FRHD");
 		memeTicker.put("salt", "SALT");
 		memeTicker.put("trigger", "TRGR");
@@ -50,15 +49,19 @@ public class PopulateTwitchDatabase {
 		//stockinfodao.insertStockInfo(new StockInfo("salt", "SALT", "Twitch", ""));
 		//stockinfodao.insertStockInfo(new StockInfo("trigger", "TRGR", "Twitch", ""));
 		
-		//databaseDao.removeAllStocksByName("kappa");
-		//databaseDao.removeAllStocksByName("vohiyo");
-		//databaseDao.removeAllStocksByName("elegiggle");
-		//databaseDao.removeAllStocksByName("minglee");
-		//databaseDao.removeAllStocksByName("kreygasm");
-		//databaseDao.removeAllStocksByName("pogchamp");
-		//databaseDao.removeAllStocksByName("biblethump");
+		databaseDao.removeAllStocksByName("kappa");
+		databaseDao.removeAllStocksByName("vohiyo");
+		databaseDao.removeAllStocksByName("minglee");
+		databaseDao.removeAllStocksByName("elegiggle");
+		databaseDao.removeAllStocksByName("kreygasm");
+		databaseDao.removeAllStocksByName("pogchamp");
+		databaseDao.removeAllStocksByName("biblethump");
+		databaseDao.removeAllStocksByName("4head");
+		databaseDao.removeAllStocksByName("salt");
+		databaseDao.removeAllStocksByName("trigger");
 		
 		// Parse Twitch Chatlogs
+		
 		for(int i=0; i<files.size(); i++){
 			System.out.println(files.get(i).getAbsolutePath());
 			// Find memes in chatlogs
@@ -76,7 +79,36 @@ public class PopulateTwitchDatabase {
 				
 			}
 			System.out.println("Finished" + files.get(i).getAbsolutePath());
+			
 		}
+		
+		System.out.println("Finished Populating");
+		
+		for(int i=0; i<memeList.size(); i++){
+			databaseDao.removeStockByNameAndDate(memeList.get(i), new Date(0));
+			List<Stock> stockhistory = databaseDao.getAllStockByName(memeList.get(i));
+			
+			Stock previousStock = stockhistory.get(stockhistory.size()-1);
+			previousStock.setCurIncrease(previousStock.getPrice() - 100);
+			stockhistory.get(stockhistory.size()-1).setPrice(100);
+			double previousPrice = 100;
+			double previousCount = previousStock.getCurIncrease();
+			for(int j=stockhistory.size()-2; j>=0; j--){
+				previousStock = stockhistory.get(j);
+				double currentCount = previousStock.getPrice();
+				
+				double diff = currentCount - previousCount;
+				previousStock.setPrice( diff / Math.max(currentCount, previousCount)* 10+ previousPrice);
+				
+				previousCount = previousStock.getCurIncrease();
+				previousPrice = previousStock.getPrice();
+			}
+			
+			for(int j=0; j<stockhistory.size(); j++){
+				databaseDao.updateStockPrice(stockhistory.get(j));
+			}
+		}
+		
 		System.out.println("Finished All!");
 	}
 	

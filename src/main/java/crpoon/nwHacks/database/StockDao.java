@@ -655,7 +655,8 @@ public class StockDao {
 			connection = DriverManager.getConnection(connectionString);
 			
 			String updateSql = "UPDATE Stock SET "
-					+ "Price = '" + stock.getPrice() + "' "
+					+ "Price = '" + stock.getPrice() + "', "
+					+ "CurrentIncrease = " + stock.getCurIncrease() + " "
             		+ "WHERE StockName='" + stock.getName() + "' "
             		+ "AND StockDate=" + stock.getDateAsLong() + ";";
 			statement = connection.createStatement();  

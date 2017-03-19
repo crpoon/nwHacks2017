@@ -1,27 +1,32 @@
+import '../images/Kappa.png'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css'
+
 import React from 'react';
 import Chart from "./chart"
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
 
 var options = {
-title: {
-        text: 'Solar Employment Growth by Sector, 2010-2016'
+    credits: {
+        enabled: false
+    },
+    title: {
+        text: null
     },
 
-    subtitle: {
-        text: 'Source: thesolarfoundation.com'
+    xAxis: {
+        gridLineWidth: 1
     },
-
     yAxis: {
-        title: {
-            text: 'Number of Employees'
-        }
+        opposite: true,
+        title: null
     },
     legend: {
+        floating: true,
         layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
+        align: 'left',
+        verticalAlign: 'top'
     },
 
     plotOptions: {
@@ -51,11 +56,5 @@ title: {
 
 // Create and render element
 var element = React.createElement(Chart, { container: 'chart', options: options });
-ReactDOM.render(element, document.getElementById('chart'));
+ReactDOM.render(element, document.getElementsByClassName('tab-pane active')[0]);
 
-//ReactDOM.render(
-//  <App />,
-//  document.getElementById('root')
-//  <Chart />,
-//  document.getElementById("chart")
-//);

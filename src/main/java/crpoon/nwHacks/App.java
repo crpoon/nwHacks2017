@@ -12,10 +12,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        //System.out.println( "Hello World!" );
-        //TwitterService.getInstance().initializeTwitterStockInfo();
-        //System.out.println("YAAAAAAS");
-        //System.out.println(TwitterClient.getInstance().getTweets("#fakenews"));
+        System.out.println( "Hello World!" );
+        TwitterService.getInstance().initializeTwitterStockInfo();
+        System.out.println("YAAAAAAS");
+        System.out.println(TwitterClient.getInstance().getTweets("#fakenews"));
+        System.out.println("YAAAAAASssssss");
+
         InstagramClient.getInstance().getInstasTags("selfies");
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.sql.*;
-import com.microsoft.sqlserver.jdbc.*;
+//import com.microsoft.sqlserver.jdbc.*;
 
 public class StockInfoDao {
 	private static StockInfoDao instance;
@@ -47,6 +47,13 @@ public class StockInfoDao {
 		return connectionExist;
 	}
 	
+	/*	Name: getAllStockInfo()
+	 * 	Params:
+	 * 	Return: List<String>
+	 * 
+	 * 	Purpose: Queries and returns all stocks and 
+	 * 			 their info from the database.
+	 */
 	public List<StockInfo> getAllStockInfo(){
 		Connection connection = null;
 		Statement statement = null;   
@@ -61,7 +68,7 @@ public class StockInfoDao {
             resultSet = statement.executeQuery(selectSql);
             
             while (resultSet.next()) {
-            	System.out.println(resultSet.getString("StockName") + " " + resultSet.getString("StockTicker") + " " + resultSet.getString("ImgUrl"));
+            	//System.out.println(resultSet.getString("StockName") + " " + resultSet.getString("StockTicker") + " " + resultSet.getString("ImgUrl"));
             	List<String> sectorList = Arrays.asList(resultSet.getString("Sector").trim().split("\\s+"));
                 listOfStocks.add(new StockInfo(resultSet.getString("StockName"),
                 							   resultSet.getString("StockTicker"),
@@ -77,50 +84,220 @@ public class StockInfoDao {
         }
 		return listOfStocks;
 	}
-	/*	#### INCOMPLETE ####
-	 * 
-	 *  Name: db_StockNameExists
+	
+	/*Name: getStockInfoByName
 	 * 	Params:	String name
-	 * 	Return: boolean
+	 * 	Return: StockInfo
 	 * 
-	 * 	Purpose: Checks to see if stock exists
-	 * 			 given the stock name
+	 * 	Purpose: Returns StockInfo given the name,
+	 * 			 if it does not exist, return null
 	 */
-	public static boolean db_StockNameExists(String name){
-		return true;
+	public StockInfo getStockInfoByName(String name){
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        StockInfo result = null;
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from StockInfo WHERE StockName='" + name + "'";
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+            	if(name.equals(resultSet.getString("StockName"))){
+            		List<String> sectorList = Arrays.asList(resultSet.getString("Sector").trim().split("\\s+"));
+                    result = new StockInfo(resultSet.getString("StockName"),
+                    							   resultSet.getString("StockTicker"),
+                    							   sectorList,
+                    							   resultSet.getString("ImgUrl"));
+                    break;
+            	}
+            }
+            
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return result;
 	}
 	
-	/*	#### INCOMPLETE ####
+	/*	Name: getStockInfoByTicker
+	 * 	Params:	String name
+	 * 	Return: StockInfo
 	 * 
-	 *  Name: db_StockTickerExists
-	 * 	Params:	String ticker
-	 * 	Return: boolean
-	 * 
-	 * 	Purpose: Checks to see if stock exists
-	 * 			 given the stock ticker
+	 * 	Purpose: Returns StockInfo given the ticker,
+	 * 			 if it does not exist, return null
 	 */
-	public static boolean db_StockTickerExists(String ticker){
-		return true;
+	public StockInfo getStockInfoByTicker(String ticker){
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        StockInfo result = null;
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from StockInfo WHERE StockTicker='" + ticker + "'";
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+            	if(ticker.equals(resultSet.getString("StockTicker"))){
+            		List<String> sectorList = Arrays.asList(resultSet.getString("Sector").trim().split("\\s+"));
+                    result = new StockInfo(resultSet.getString("StockName"),
+                    							   resultSet.getString("StockTicker"),
+                    							   sectorList,
+                    							   resultSet.getString("ImgUrl"));
+                    break;
+            	}
+            }
+            
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return result;
 	}
 	
-	/*	Name: db_getImgURL
-	 * 	Params:
-	 * 	Return: String
+	/*	Name: insertStockInfo
+	 * 	Params: StockInfo stock
+	 * 	Return:
 	 * 
-	 * 	Purpose: Gets the image URL from the database
+	 * 	Purpose: Inserts a stock into the StockInfo table
 	 */
-	private String db_getImgURL(){
-		return null;
+	public void insertStockInfo(StockInfo stock){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String insertSql = "INSERT INTO StockInfo (StockName, StockTicker, Sector, ImgUrl)"
+            		+ " VALUES ('" + stock.getName() + "', "
+					+ "'" + stock.getTicker() + "', "
+					+ "'" + stock.getSectorIdsAsString() + "', "
+					+ "'" + stock.getImgUrl() + "');";
+			statement = connection.createStatement();  
+            statement.executeUpdate(insertSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
 	}
 	
-	/*	Name: db_setImgUrl
-	 * 	Params: String imgUrl
+	/*	Name: updateStockInfo
+	 * 	Params: StockInfo stock
 	 * 	Return: 
 	 * 
-	 * 	Purpose: Updates the database to 
-	 * 			 the new URL
+	 * 	Purpose: Updates the database with information about
+	 * 			the StockInfo stock
 	 */
-	private void db_setImgUrl(String imgUrl){
-		return;
+	public void updateStockInfo(StockInfo stock){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String updateSql = "UPDATE StockInfo SET "
+					+ "Sector = '" + stock.getSectorIdsAsString() + "', "
+					+ "ImgUrl = '" + stock.getImgUrl() + "' "
+            		+ "WHERE StockName='" + stock.getName() + "';";
+			statement = connection.createStatement();  
+            statement.executeUpdate(updateSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+	}
+
+	/*	Name: removeStockInfo
+	 * 	Params: StockInfo stock
+	 * 	Return: 
+	 * 
+	 * 	Purpose: Removes the StockInfo stock
+	 * 			from the database.
+	 */
+	public void removeStockInfo(StockInfo stock){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String deleteSql = "DELETE FROM StockInfo "
+            		+ "WHERE StockName='" + stock.getName() + "';";
+			statement = connection.createStatement();  
+            statement.executeUpdate(deleteSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+	}
+	
+	/*	Name: removeStockInfoByName
+	 * 	Params: String name
+	 * 	Return: 
+	 * 
+	 * 	Purpose: Given String name,
+	 * 			Removes the StockInfo with StockName=name
+	 * 			from the database.
+	 */
+	public void removeStockInfoByName(String name){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String deleteSql = "DELETE FROM StockInfo "
+            		+ "WHERE StockName='" + name + "';";
+			statement = connection.createStatement();  
+            statement.executeUpdate(deleteSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+	}
+	
+	/*	Name: removeStockInfoByTicker
+	 * 	Params: String ticker
+	 * 	Return: 
+	 * 
+	 * 	Purpose: Given String ticker,
+	 * 			Removes the StockInfo with StockTicker=ticker
+	 * 			from the database.
+	 */
+	public void removeStockInfoByTicker(String ticker){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String deleteSql = "DELETE FROM StockInfo "
+            		+ "WHERE StockTicker='" + ticker + "';";
+			statement = connection.createStatement();  
+            statement.executeUpdate(deleteSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
 	}
 }

@@ -1,5 +1,1 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
+body{margin:0;padding:0;font-family:sans-serif}body .site-content{height:calc(100% - @footer-height)}body .company-logo{display:inline-block;height:30px;width:30px}body .company-logo-container{width:100%;height:30px}body #main-header{padding-left:20px}body .slogan{height:50px;width:100%}body .slogan .slogan-text{font-size:300%;vertical-align:middle}body .slogan .slogan-icon{height:50px;width:50px}body .platform-tabs{padding-top:20px;padding-left:20px}body .tab-content{padding-top:20px}body .footer{opacity:.6;height:40px;margin-left:20%;margin-right:20%;border-top:solid 1px grey}

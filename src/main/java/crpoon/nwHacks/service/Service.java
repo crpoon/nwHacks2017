@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class Service {
 
-    protected static final int MAX_COUNT = 25;
+    protected static final double MAX_COUNT = 25.0;
 
     private static final long ONE_HOUR = 1000 * 60 * 60;
 
@@ -60,18 +60,36 @@ public abstract class Service {
         } else {
             Stock lastStock = stocks.get(0);
             double currentIncreasePerHour = getCurrentIncreasePerHour(hashtag, lastStock);
-            currentPrice = calculatePrice(getAverageIncomePerHour(hashtag),
-                    currentIncreasePerHour, lastStock);
+            double avgIncreasePerHour = getAverageIncomePerHour(hashtag);
+
+            System.out.println("Name: " + hashtag +
+                    ", AvgInc: " + avgIncreasePerHour +
+                    ", CurInc: " + currentIncreasePerHour);
+            currentPrice = calculatePrice(avgIncreasePerHour, currentIncreasePerHour, lastStock);
             currentIncrease = currentPrice - lastStock.getPrice();
         }
+        System.out.println("Name: "  + hashtag +
+                ", Ticker: " + ticker +
+                ", Price: " + currentPrice +
+                ", Increase: " + currentIncrease);
         Stock stock = new Stock(hashtag, ticker, new Date(), currentPrice, currentIncrease);
         StockDao.getInstance().insertStock(stock);
     }
 
     private double calculatePrice(double avgIncPerHour, double curIncPerHour, Stock lastStock) {
         double fullAverage = avgIncPerHour;
-        double averageWithCur = (((MAX_COUNT - 1)/ MAX_COUNT) * avgIncPerHour) + ((1 / MAX_COUNT) * curIncPerHour);
+        double firstMultiplier = ((MAX_COUNT - 1.0)/ MAX_COUNT);
+        double secondMultiplier = (1.0 / MAX_COUNT);
+        double firstHalf = firstMultiplier * avgIncPerHour;
+        double secondHalf = secondMultiplier *curIncPerHour;
+        double averageWithCur = firstHalf + secondHalf;
 
+        System.out.println("Name: " + lastStock.getName() +
+                ", 1Mul: " + firstMultiplier +
+                ", 2Mul: " + secondMultiplier +
+                ", 1Haf: " + firstHalf +
+                ", 2Mul: " + secondHalf +
+                ", AvgCur: " + averageWithCur);
         return lastStock.getPrice() + (averageWithCur - fullAverage);
     }
 

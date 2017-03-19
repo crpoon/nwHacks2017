@@ -6,14 +6,20 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import twitter4j.*;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 public class TwitterClient {
 
 private static TwitterClient instance;
 
-	private static final String apiKey = "fUgJpMNuroKJ9uECAbwOo7TjQ";
-	private static final String apiSecret = "ZlVzkLZDVFvX2I2DzHEhLk7X305a3rrrAObDNCLITgF1ReUJ2V";
-	
+	private static final String consumerKey = "fUgJpMNuroKJ9uECAbwOo7TjQ";
+	private static final String consumerSecret = "ZlVzkLZDVFvX2I2DzHEhLk7X305a3rrrAObDNCLITgF1ReUJ2V";
 	private static final String token = "843243416007802880-4D9S2x368zSDcsrwBLPiGmWJwS9vIJd";
 	private static final String tokenSecret = "BOX4oY69vUPkt5I1c9FdHqqr4ktE3KEwmViZTwdW3eNXQ";
 	
@@ -29,23 +35,38 @@ private static TwitterClient instance;
 		}
 		return instance;
 	}
-	
+
+	private Configuration createAuthConfiguration() {
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setOAuthConsumerKey(consumerKey)
+				.setOAuthConsumerSecret(consumerSecret)
+				.setOAuthAccessToken(token)
+				.setOAuthAccessTokenSecret(tokenSecret);
+		return cb.build();
+	}
+
 	public String getTweets(String hashtag) {
-		WebResource resource = client.resource("https://api.twitter.com/1.1/search/tweets.json");
-	
-		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
-		//queryParams.add("json", js);
-		
-		String appKey = "Bearer " + apiKey;
-		
-		ClientResponse response = null;
-		response = resource.queryParams(queryParams)
-				.header("Content-Type", "application/json;charset=UTF-8")
-				.header("Authorization", appKey)
-				.get(ClientResponse.class);
-		
-		String output = response.getEntity(String.class);
-		System.out.println(output);
-		return output;
+		try {
+			TwitterFactory factory = new TwitterFactory(createAuthConfiguration());
+			Twitter twitter = factory.getInstance();
+
+			Query query = new Query("#trump");
+			QueryResult result = twitter.search(query);
+			for (Status status : result.getTweets()) {
+				System.out.println(status.getText());
+			}
+		} catch (TwitterException e) {
+			// TODO: Write a exception to handle
+		}
+		return "";
+	}
+
+	class NonceGenerator {
+
+		private SecureRandom random = new SecureRandom();
+
+		public String createNonce() {
+			return new BigInteger(130, random).toString(32);
+		}
 	}
 }

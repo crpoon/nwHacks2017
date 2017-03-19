@@ -11,9 +11,9 @@ public class InstagramClient {
 
 private static InstagramClient instance;
 
-	private static final String apiKey = "8d608465facb4c7cbd5dbae5974c96c4";
-	private static final String apiSecret = "c0b037cf57c94094973700f83ebb30dd";
-	private static final String callbackUrl = "http://dankmemes-nwhacks.herokuapp.com/";
+	//private static final String apiKey = "8d608465facb4c7cbd5dbae5974c96c4";
+	//private static final String apiSecret = "c0b037cf57c94094973700f83ebb30dd";
+	//private static final String callbackUrl = "http://dankmemes-nwhacks.herokuapp.com/";
 	private static final String accesstoken = "4848984552.8d60846.60eda05fe65c461088e5c6c7c4a5c769";
 	//private static final String scope = "tags";
 
@@ -24,7 +24,7 @@ private static InstagramClient instance;
 
 
 		this.api = new InstagramApi();
-		Token token = new Token("accesstoken", "accesstoken");
+		Token token = new Token(accesstoken, accesstoken);
 		this.instagram = new Instagram(token);
 
 	}
@@ -50,5 +50,4 @@ private static InstagramClient instance;
 		}
 		return "";
 	}
-
 }

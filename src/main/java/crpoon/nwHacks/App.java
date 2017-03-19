@@ -26,13 +26,15 @@ public class App
         final ResourceConfig rc = new ResourceConfig();
         rc.registerClasses(InstagramController.class, TwitterController.class, TwitchController.class);
 
-//        //TwitterServer.getInstance().start();
-//        //InstagramServer.getInstance().start();
+
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
+
+        //TwitterServer.getInstance().start();
+        //InstagramServer.getInstance().start();
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         System.in.read();

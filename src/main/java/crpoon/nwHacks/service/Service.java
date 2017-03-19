@@ -43,8 +43,8 @@ public abstract class Service {
         diffTime = ONE_HOUR / diffTime;
 
         // count * diffTime = currentIncresase/hr
-        System.out.println("count: "+count);
-        System.out.println("CurrentIncreasePerHour: "+ count*diffTime);
+        //System.out.println("count: "+count);
+        //System.out.println("CurrentIncreasePerHour: "+ count*diffTime);
         return count * diffTime;
     }
 

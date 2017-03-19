@@ -43,6 +43,8 @@ public abstract class Service {
         diffTime = ONE_HOUR / diffTime;
 
         // count * diffTime = currentIncresase/hr
+        System.out.println("count: "+count);
+        System.out.println("CurrentIncreasePerHour: "+ count*diffTime);
         return count * diffTime;
     }
 
@@ -71,6 +73,7 @@ public abstract class Service {
     private double calculatePrice(double avgIncPerHour, double curIncPerHour, Stock lastStock) {
         double fullAverage = avgIncPerHour;
         double averageWithCur = (((MAX_COUNT - 1)/ MAX_COUNT) * avgIncPerHour) + ((1 / MAX_COUNT) * curIncPerHour);
+        System.out.println("AverageWithCur: "+ averageWithCur);
 
         return lastStock.getPrice() + (averageWithCur - fullAverage);
     }

@@ -1,35 +1,33 @@
 package crpoon.nwHacks.model;
 
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
 
-public class Stock {
-	
+public class InstagramInfo {
+
 	private String name;
 	private String ticker;
+	private int totalMention;
 	private Date date;
-	private double price;
-	private double curIncrease;
-	
+
 	/*	CONSTRUCTORS
-	 * 
+	 *
 	 */
-	public Stock(String name, String ticker, Date date, double price, double curIncrease){
+	public InstagramInfo(String name, String ticker, int totalMention, Date date) {
 		this.name = name;
 		this.ticker = ticker;
+		this.totalMention = totalMention;
 		this.date = date;
-		this.price = price;
-		this.curIncrease = curIncrease;
 	}
-	
-	public Stock(String name, String ticker, Long date, double price, double curIncrease){
+
+	public InstagramInfo(String name, String ticker, int totalMention, Long date) {
 		this.name = name;
 		this.ticker = ticker;
+		this.totalMention = totalMention;
 		this.date = new Date(date);
-		this.price = price;
-		this.curIncrease = curIncrease;
 	}
-	
+
 	/*	Name: getName
 	 * 	Param:
 	 * 	Return: String
@@ -39,7 +37,7 @@ public class Stock {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/*	#### SHOULD NOT BE USED ####
 	 * 	Name: setName
 	 * 	Param:	String name
@@ -50,7 +48,7 @@ public class Stock {
 	private void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/*	Name: getTicker
 	 * 	Param:
 	 * 	Return: String
@@ -60,7 +58,7 @@ public class Stock {
 	public String getTicker() {
 		return this.ticker;
 	}
-	
+
 	/*	#### SHOULD NOT BE USED ####
 	 * 	Name: setTicker
 	 * 	Param:	String ticker
@@ -68,36 +66,36 @@ public class Stock {
 	 * 
 	 * 	Purpose: Sets the ticker of the stock
 	 */
-	public void setTicker(String ticker) {
+	private void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
-	
-	public Date getDate(){
+
+	/*	Name: getTotalMention
+	 * 	Param:
+	 * 	Return: int
+	 * 
+	 * 	Purpose: Gets the total mention of this stock
+	 */
+	public int getTotalMention() {
+		return this.totalMention;
+	}
+
+
+	public Date getDate() {
 		return this.date;
 	}
-	
-	public void setDate(Date date){
-		this.date = date;
-	}
-	
+
 	public long getDateAsLong(){
 		return this.date.getTime();
 	}
-	
-	public void setDateFromLong(Long date){
-		this.date = new Date(date);
-	}
-	
-	public double getPrice(){
-		return this.price;
-	}
-	
-	public void setPrice(double price){
-		this.price = price;
+
+	public void setTotalMention(int tm) {
+		this.totalMention = tm;
 	}
 
-	public double getCurIncrease() { return this.curIncrease; };
 
-	public void setCurIncrease(double curIncrease) { this.curIncrease = curIncrease; };
+	public void setDate(Date d) {
+		this.date = d;
+	}
 
 }

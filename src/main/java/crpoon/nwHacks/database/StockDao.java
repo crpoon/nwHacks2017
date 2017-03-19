@@ -54,7 +54,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -92,7 +93,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -130,7 +132,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -167,7 +170,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -204,7 +208,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -253,7 +258,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -292,7 +298,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -331,7 +338,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -381,7 +389,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -420,7 +429,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -459,7 +469,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -509,7 +520,8 @@ public class StockDao {
                 listOfStocks.add(new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price")));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease")));
             } 
 		}  
         catch (Exception e) {  
@@ -546,7 +558,8 @@ public class StockDao {
                 returnStock = new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price"));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease"));
                 break;
             } 
 		}  
@@ -584,7 +597,8 @@ public class StockDao {
                 returnStock = new Stock(resultSet.getString("StockName"),
                 							resultSet.getString("StockTicker"),
                 							resultSet.getLong("StockDate"),
-                							resultSet.getDouble("Price"));
+                							resultSet.getDouble("Price"),
+											resultSet.getDouble("CurrentIncrease"));
                 break;
             } 
 		}  
@@ -609,11 +623,12 @@ public class StockDao {
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String insertSql = "INSERT INTO Stock (StockName, StockTicker, StockDate, Price)"
+			String insertSql = "INSERT INTO Stock (StockName, StockTicker, StockDate, Price, CurrentIncrease)"
             		+ " VALUES ('" + stock.getName() + "', "
 					+ "'" + stock.getTicker() + "', "
 					+ stock.getDateAsLong() + ", "
-					+ stock.getPrice() + ");";
+					+ stock.getPrice() + ", "
+					+ stock.getCurIncrease() + ");";
 			statement = connection.createStatement();  
             statement.executeUpdate(insertSql);
 		}  

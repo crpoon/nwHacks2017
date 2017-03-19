@@ -38,16 +38,16 @@ private static InstagramClient instance;
 
 
 	
-	public String getInstasTags(String hashtag) {
+	public int getInstasTags(String hashtag) {
 		try {
 			TagInfoFeed feed = instagram.getTagInfo(hashtag);
 			TagInfoData tagData = feed.getTagInfo();
-			System.out.println("name : " + tagData.getTagName());
-			System.out.println("media_count : " + tagData.getMediaCount());
-			return tagData.toString();
+			//System.out.println("name : " + tagData.getTagName());
+			//System.out.println("media_count : " + tagData.getMediaCount());
+			return (int)tagData.getMediaCount();
 		} catch (InstagramException e) {
 			System.out.println(e.toString());
 		}
-		return "";
+		return 0;
 	}
 }

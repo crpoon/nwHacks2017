@@ -50,12 +50,6 @@ public class chatlogParser {
 		    	if( currentHour.getTime() != lineDate.getTime()){
 		    	//	output counts into the hourly meme list
 		    		for(int i=0; i<memes.size(); i++){
-		    			System.out.println(i);
-		    			System.out.println(resultCount == null);
-		    			System.out.println(currentHour == null);
-		    			System.out.println(memeCount == null);
-		    			System.out.println(memes.get(i).toLowerCase());
-		    			System.out.println(memeCount.get(memes.get(i).toLowerCase()));
 		    			resultCount.add(new HourlyMeme(currentHour, memes.get(i).toLowerCase(), memeCount.get(memes.get(i).toLowerCase())));
 		    		}
 		    	//  reset meme count

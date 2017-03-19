@@ -3,13 +3,15 @@ package crpoon.nwHacks.service;
 
 import com.google.common.collect.ImmutableList;
 import crpoon.nwHacks.client.InstagramClient;
-import crpoon.nwHacks.client.TwitterClient;
+import crpoon.nwHacks.database.InstagramInfoDao;
 import crpoon.nwHacks.database.StockInfoDao;
+import crpoon.nwHacks.model.InstagramInfo;
 import crpoon.nwHacks.model.StockInfo;
 
+import java.util.Date;
 import java.util.List;
 
-public class InstagramService {
+public class InstagramService extends Service {
 
     private static final int MINUTE_COUNT = 5;
     private static final int MAX_COUNT = 25;
@@ -29,35 +31,28 @@ public class InstagramService {
     public void initializeInstagramStockInfo() {
         List<String> instagramSector = ImmutableList.of("instagram");
 
-        StockInfo selfies = new StockInfo("Selfies", "SELF", "Instagram", "");
-        StockInfo blessed = new StockInfo("Blessed", "BLES", "Instagram", "");
-        StockInfo igers = new StockInfo("Igers", "IGER", "Instagram", "");
-        StockInfo nofilter = new StockInfo("No Filter", "NOF", "Instagram", "");
+        StockInfo selfies = new StockInfo("Selfies", "SELF", instagramSector, "");
+        StockInfo blessed = new StockInfo("Blessed", "BLES", instagramSector, "");
+        StockInfo igers = new StockInfo("Igers", "IGER", instagramSector, "");
+        StockInfo nofilter = new StockInfo("No Filter", "NOF", instagramSector, "");
 
         List<StockInfo> infos = ImmutableList.of(selfies, blessed, igers, nofilter);
         for (StockInfo info : infos) {
-            StockInfoDao.getInstance().insertStockInfo(info);
+            StockInfoDao.getInstance().updateStockInfo(info);
+            InstagramInfoDao.getInstance().updateInstagramInfo(new InstagramInfo(info.getName(), info.getTicker(), 0, new Date()));
         }
-    }
 
-    public void performUpdateHashtag(String hashtag) {
-        int count = InstagramClient.getInstance().getInstasTags(hashtag);
 
     }
 
-//    private double getPrice(int count, String hashtag) {
-//        double newCount = (double) count;
-//
-//        long oneDayTime = 1000 * 60 * 60 * 24;
-//        Date oneDayAgo = new Date(System.currentTimeMillis() - oneDayTime);
-//        List<Stock> stocks = StockDao.getInstance().getAllStockAfterDate(oneDayAgo);
-//        Stock mostRecentStock;
-//        if (stocks.size() > 0) {
-//            mostRecentStock = stocks.get(0);
-//        }
-//
-//
-//    }
+    public int getCurrentIncrease(String hashtag) {
+        int currentMention = InstagramClient.getInstance().getInstasTags(hashtag);
+        InstagramInfo info = InstagramInfoDao.getInstance().getAllInstagramInfoByName(hashtag).get(0);
+        int lastMention = info.getTotalMention();
+        String ticker = info.getTicker();
+        InstagramInfoDao.getInstance().updateInstagramInfo(new InstagramInfo(hashtag, ticker, currentMention, new Date()));
+        int currentIncrease = currentMention - lastMention;
+        return currentIncrease;
 
-
+    }
 }

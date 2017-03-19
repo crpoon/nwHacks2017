@@ -18,6 +18,7 @@ public abstract class Service {
 
     private static final long ONE_HOUR = 1000 * 60 * 60;
 
+    // Gets the sum of all increases of a stock
     public double getAverageIncomePerHour(String hashtag) {
         Date oneHourAgo = new Date(System.currentTimeMillis() - ONE_HOUR);
         List<Stock> stocks = StockDao.getInstance().getAllStockByNameAfterDate(hashtag, oneHourAgo);
@@ -29,17 +30,22 @@ public abstract class Service {
         return sumIncrease / stocks.size();
     }
 
+    // Calculate the currentIncrease/hour
     public double getCurrentIncreasePerHour(String hashtag, Stock lastStock) {
         if (lastStock == null) {
             return 100.0;
         }
+        // Calls the client to get the newest value from the server
         int count = getCurrentIncrease(hashtag);
         Date lastStockDate = lastStock.getDate();
         double diffTime = System.currentTimeMillis() - lastStockDate.getTime();
+
         diffTime = ONE_HOUR / diffTime;
 
+        // count * diffTime = currentIncresase/hr
         return count * diffTime;
     }
+
 
     public void calculateAndPersistStock(String hashtag) {
         StockInfo info = StockInfoDao.getInstance().getStockInfoByName(hashtag);

@@ -42,8 +42,8 @@ private static InstagramClient instance;
 		try {
 			TagInfoFeed feed = instagram.getTagInfo(hashtag);
 			TagInfoData tagData = feed.getTagInfo();
-			System.out.println("name : " + tagData.getTagName());
-			System.out.println("media_count : " + tagData.getMediaCount());
+			//System.out.println("name : " + tagData.getTagName());
+			//System.out.println("media_count : " + tagData.getMediaCount());
 			return (int)tagData.getMediaCount();
 		} catch (InstagramException e) {
 			System.out.println(e.toString());

@@ -9,8 +9,11 @@
     "react-scripts": "0.9.4"
   },
   "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "less-watch-compiler": "^1.4.2",
     "node-sass": "^4.5.0",
-    "npm-run-all": "^4.0.2"
+    "npm-run-all": "^4.0.2",
+    "react-bootstrap": "^0.30.8"
   },
   "scripts": {
     "build-css": "node-sass src/ -o src/",

@@ -13,20 +13,49 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>#DMSE</title>
   </head>
   <body>
-    <div id="root"></div>
-    <div id="chart"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <main id="site-content">
+      <div id="main-header">
+        <div class="company-logo-container">
+          <span class="company-logo"></span>
+        </div>
+        <div class="slogan">
+          <div class="slogan-text">Forever Young...</div>
+          <span class="slogan-icon"></span>
+        </div>
+      </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      <!-- Nav tabs -->
+      <ul class="platform-tabs nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#instagram" aria-controls="instagram" role="tab" data-toggle="tab">Instagram</a></li>
+        <li role="presentation"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
+        <li role="presentation"><a href="#twitch" aria-controls="twitch" role="tab" data-toggle="tab">Twitch</a></li>
+      </ul>
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="instagram"></div>
+        <div role="tabpanel" class="tab-pane" id="twitter"></div>
+        <div role="tabpanel" class="tab-pane" id="twitch"></div>
+      </div>
+      <div id="chart"></div>
+      <!--
+        This HTML file is a template.
+        If you open it directly in the browser, you will see an empty page.
+
+        You can add webfonts, meta tags, or analytics to this file.
+        The build step will place the bundled scripts into the <body> tag.
+
+        To begin the development, run `npm start`.
+        To create a production bundle, use `npm run build`.
+      -->
+    </main>
+    <div class="footer">
+      <span class="company-logo"></span>
+      <span class="company-name">#Dank Meme Stock Exchange</span>
+    </div>
+
   </body>
 </html>

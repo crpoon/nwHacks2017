@@ -1,0 +1,60 @@
+@footer-height: 40px;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+  .site-content {
+    height: calc(~"100% - @footer-height");
+  }
+
+  .company-logo {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+   }
+
+  .company-logo-container {
+    width: 100%;
+    height: 30px;
+  }
+
+  #main-header {
+    padding-left: 20px;
+  }
+
+   .slogan {
+    height: 50px;
+    width: 100%;
+    .slogan-text {
+     font-size: 300%;
+     vertical-align: middle;
+    }
+    .slogan-icon {
+     height: 50px;
+     width: 50px;
+    }
+   }
+
+   .platform-tabs {
+    padding-top: 20px;
+    padding-left: 20px;
+   }
+
+   .tab-content {
+    padding-top: 20px;
+   }
+
+  #chart {
+  }
+
+  .footer {
+    opacity: 0.6;
+    height: @footer-height;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-top: solid 1px grey;
+
+  }
+}

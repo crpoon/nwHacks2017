@@ -2,6 +2,8 @@ import React from 'react';
 import Chart from "./chart"
 import ReactDOM from 'react-dom';
 import App from './App';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css'
 import './index.css';
 
 var options = {

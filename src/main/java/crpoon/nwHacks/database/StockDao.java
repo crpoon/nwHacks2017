@@ -623,7 +623,7 @@ public class StockDao {
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String insertSql = "INSERT INTO Stock (StockName, StockTicker, StockDate, Price)"
+			String insertSql = "INSERT INTO Stock (StockName, StockTicker, StockDate, Price, CurrentIncrease)"
             		+ " VALUES ('" + stock.getName() + "', "
 					+ "'" + stock.getTicker() + "', "
 					+ stock.getDateAsLong() + ", "

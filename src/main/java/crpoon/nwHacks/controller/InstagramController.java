@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Path("instagram/")
 public class InstagramController {
 	
@@ -50,5 +49,4 @@ public class InstagramController {
 		List<StockFrontEnd> ret = ImmutableList.of(blessed, noFilter, igers, selfies);
 		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON).build();
 	}
-
 }

@@ -4,58 +4,21 @@ import React from 'react';
 import Highcharts from "highcharts";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+//import MockAdapter from 'axios-mock-adapter';
 
 
 class TabModule {
     renderTab(tabId, chartNum) {
-        console.log(tabId);
 
-        var element;
-        var mock = new MockAdapter(axios);
-        mock.onGet("/"+tabId+"/stocks").reply(200, [
-            [
-                {
-                    price: 15,
-                    ticker: "KGSM",
-                    increase: 0.12,
-                    indexName: "KreyGasm",
-                    timeStamp: "2017-03-19T11:00:00"
-                },
-                {
-                    price: 16.8,
-                    ticker: "KGSM",
-                    increase: 1.8,
-                    indexName: "KreyGasm",
-                    timeStamp: "2017-03-19T11:05:00"
-                },
-                {
-                    price: 15,
-                    ticker: "KGSM",
-                    increase: -1.8,
-                    indexName: "KreyGasm",
-                    timeStamp: "2017-03-19T11:10:00"
-                },
-                {
-                    price: 14.2,
-                    ticker: "KGSM",
-                    increase: -0.8,
-                    indexName: "KreyGasm",
-                    timeStamp: "2017-03-19T11:15:00"
-                },
-
-            ]
-        ]);
-        var nextDate = "2017-03-19T11:20:00";
-        mock.onGet("/"+tabId+"/stocks/recent").reply(200, [
-            {
-                price: Math.random()*20,
-                ticker: "KGSM",
-                increase: 0.2,
-                indexName: "KreyGasm",
-                timeStamp: nextDate
+        var apiInstance = axios.create({
+            baseURL: "http://localhost:8080/",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
-        ]);
+        });
+        console.log(tabId);
+        var element;
 
         var initialData = [];
 
@@ -88,12 +51,12 @@ class TabModule {
 
             plotOptions: {
                 series: {
-                    pointStart: 2010
+
                 }
             }
         };
 
-        axios.get("/"+tabId + "/stocks")
+        apiInstance.get(tabId + "/stocks")
             .then(function(response) {
                 console.log(response);
                 var responseData = response.data;
@@ -129,7 +92,7 @@ class TabModule {
             });
 
         setInterval(function() {
-            axios.get("/"+tabId + "/stocks/recent")
+            apiInstance.get(tabId + "/stocks/recent")
                 .then(function(response) {
                     console.log(response);
                     var responseData = response.data;
@@ -143,21 +106,11 @@ class TabModule {
                             y: responseData[i].price
                         }
                         var shift = series.data.length > 36;
-                        nextDate = new Date(new Date(nextDate).valueOf()+(1000*60*5)).toISOString();
-                        mock.onGet("/"+tabId+"/stocks/recent").reply(200, [
-                            {
-                                price: Math.random()*20,
-                                ticker: "KGSM",
-                                increase: 0.2,
-                                indexName: "KreyGasm",
-                                timeStamp: nextDate
-                            }
-                        ]);
                         series.addPoint(newPoint, true, shift);
 
                     }
                 })
-        }, 4000)
+        }, 30000)
 
       }
 

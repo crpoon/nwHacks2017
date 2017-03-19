@@ -34,8 +34,8 @@ public class InstagramController {
 		ret.add(noFilter);
 		ret.add(igers);
 		ret.add(selfies);
-
-		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON).build();
+		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@GET
@@ -48,7 +48,8 @@ public class InstagramController {
 		StockFrontEnd igers = FrontEndService.getInstance().getRecentStockToFrontEnd("Igers");
 		StockFrontEnd selfies = FrontEndService.getInstance().getRecentStockToFrontEnd("Selfies");
 		List<StockFrontEnd> ret = ImmutableList.of(blessed, noFilter, igers, selfies);
-		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON).build();
+		return Response.ok(gson.toJson(ret), MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

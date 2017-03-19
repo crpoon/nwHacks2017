@@ -1,21 +1,20 @@
 package crpoon.nwHacks;
 
-import crpoon.nwHacks.client.InstagramClient;
-import crpoon.nwHacks.client.TwitterClient;
-import crpoon.nwHacks.service.TwitterService;
+import crpoon.nwHacks.server.TwitterServer;
+import crpoon.nwHacks.server.InstagramServer;
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
-        //System.out.println( "Hello World!" );
-        //TwitterService.getInstance().initializeTwitterStockInfo();
-        //System.out.println("YAAAAAAS");
-        //System.out.println(TwitterClient.getInstance().getTweets("#fakenews"));
-        InstagramClient.getInstance().getInstasTags("selfies");
+        System.out.println( "Hello World!" );
+        //TwitterServer.getInstance().start();
+        InstagramServer.getInstance().start();
+
+        System.out.println("THIS SHOULD NEVER RUN! YOU DUN GOOFED");
     }
 }

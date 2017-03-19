@@ -46,7 +46,7 @@ public class StockDao {
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String selectSql = "SELECT * from Stock";
+			String selectSql = "SELECT * from Stock ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -83,7 +83,8 @@ public class StockDao {
 			connection = DriverManager.getConnection(connectionString);
 			
 			String selectSql = "SELECT * from Stock "
-					+ "WHERE StockName = '" + name + "';";
+					+ "WHERE StockName = '" + name + "' "
+					+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -120,7 +121,8 @@ public class StockDao {
 			connection = DriverManager.getConnection(connectionString);
 			
 			String selectSql = "SELECT * from Stock "
-					+ "WHERE StockTicker = '" + ticker + "';";
+					+ "WHERE StockTicker = '" + ticker + "' "
+					+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -156,7 +158,8 @@ public class StockDao {
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String selectSql = "SELECT * from Stock WHERE StockDate>" + date.getTime();
+			String selectSql = "SELECT * from Stock WHERE StockDate>" + date.getTime() + " "
+							+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -192,7 +195,8 @@ public class StockDao {
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String selectSql = "SELECT * from Stock WHERE StockDate<" + date.getTime();
+			String selectSql = "SELECT * from Stock WHERE StockDate<" + date.getTime() + " "
+							+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -212,6 +216,55 @@ public class StockDao {
 		return listOfStocks;
 	}
 	
+	/*	Name: getAllStockBetweenDates
+	 * 	Params:	Date date1, Date date2
+	 * 	Return: List<Stock>
+	 * 
+	 * 	Purpose: Queries and returns all stocks between
+	 * 			 given dates
+	 */
+	public List<Stock> getAllStockBetweenDates(Date date1, Date date2){
+		long low;
+		long high;
+		if(date1.getTime() > date2.getTime()){
+			high = date1.getTime();
+			low = date2.getTime();
+		} else {
+			high = date2.getTime();
+			low = date1.getTime();
+		}
+		
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        List<Stock> listOfStocks = new ArrayList<Stock>();
+        
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from Stock "
+					+ "WHERE StockDate<" + high + " "
+					+ "AND StockDate>" + low + " "
+					+ "ORDER BY StockDate DESC;";
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+                listOfStocks.add(new Stock(resultSet.getString("StockName"),
+                							resultSet.getString("StockTicker"),
+                							resultSet.getLong("StockDate"),
+                							resultSet.getDouble("Price")));
+            } 
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return listOfStocks;
+	}
+
 	/*	Name: getAllStockByNameAfterDate
 	 * 	Params:	String name, Date date
 	 * 	Return: List<Stock>
@@ -230,7 +283,8 @@ public class StockDao {
 			
 			String selectSql = "SELECT * from Stock WHERE "
 					+ "StockName='" + name + "' AND "
-					+ "StockDate>" + date.getTime();
+					+ "StockDate>" + date.getTime() + " "
+					+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -268,7 +322,8 @@ public class StockDao {
 			
 			String selectSql = "SELECT * from Stock WHERE "
 					+ "StockName='" + name + "' AND "
-					+ "StockDate<" + date.getTime();
+					+ "StockDate<" + date.getTime() + " "
+							+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -288,6 +343,56 @@ public class StockDao {
 		return listOfStocks;
 	}
 
+	/*	Name: getAllStockBetweenDates
+	 * 	Params:	String name, Date date1, Date date2
+	 * 	Return: List<Stock>
+	 * 
+	 * 	Purpose: Queries and returns all name stocks between
+	 * 			 given dates
+	 */
+	public List<Stock> getAllStockByNameBetweenDates(String name, Date date1, Date date2){
+		long low;
+		long high;
+		if(date1.getTime() > date2.getTime()){
+			high = date1.getTime();
+			low = date2.getTime();
+		} else {
+			high = date2.getTime();
+			low = date1.getTime();
+		}
+		
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        List<Stock> listOfStocks = new ArrayList<Stock>();
+        
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from Stock "
+					+ "WHERE StockName='" + name + "' "
+					+ "AND StockDate<" + high + " "
+					+ "AND StockDate>" + low + " "
+					+ "ORDER BY StockDate DESC;";
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+                listOfStocks.add(new Stock(resultSet.getString("StockName"),
+                							resultSet.getString("StockTicker"),
+                							resultSet.getLong("StockDate"),
+                							resultSet.getDouble("Price")));
+            } 
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return listOfStocks;
+	}
+	
 	/*	Name: getAllStockByTickerAfterDate
 	 * 	Params:	String ticker, Date date
 	 * 	Return: List<Stock>
@@ -306,7 +411,8 @@ public class StockDao {
 			
 			String selectSql = "SELECT * from Stock WHERE "
 					+ "StockTicker='" + ticker + "' AND "
-					+ "StockDate>" + date.getTime();
+					+ "StockDate>" + date.getTime() + " "
+					+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -344,7 +450,8 @@ public class StockDao {
 			
 			String selectSql = "SELECT * from Stock WHERE "
 					+ "StockTicker='" + ticker + "' AND "
-					+ "StockDate<" + date.getTime();
+					+ "StockDate<" + date.getTime() + " "
+					+ "ORDER BY StockDate DESC;";
 			statement = connection.createStatement();  
             resultSet = statement.executeQuery(selectSql);
             
@@ -362,6 +469,132 @@ public class StockDao {
             if (connection != null) try { connection.close(); } catch(Exception e) {}  
         }
 		return listOfStocks;
+	}
+	
+	/*	Name: getAllStockBetweenDates
+	 * 	Params:	String name, Date date1, Date date2
+	 * 	Return: List<Stock>
+	 * 
+	 * 	Purpose: Queries and returns all name stocks between
+	 * 			 given dates
+	 */
+	public List<Stock> getAllStockByTickerBetweenDates(String ticker, Date date1, Date date2){
+		long low;
+		long high;
+		if(date1.getTime() > date2.getTime()){
+			high = date1.getTime();
+			low = date2.getTime();
+		} else {
+			high = date2.getTime();
+			low = date1.getTime();
+		}
+		
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        List<Stock> listOfStocks = new ArrayList<Stock>();
+        
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from Stock "
+					+ "WHERE StockTicker='" + ticker + "' "
+					+ "AND StockDate<" + high + " "
+					+ "AND StockDate>" + low + " "
+					+ "ORDER BY StockDate DESC;";
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+                listOfStocks.add(new Stock(resultSet.getString("StockName"),
+                							resultSet.getString("StockTicker"),
+                							resultSet.getLong("StockDate"),
+                							resultSet.getDouble("Price")));
+            } 
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return listOfStocks;
+	}
+
+	/*	Name: getStockByNameAndDate
+	 * 	Params:	String name, Date date
+	 * 	Return: Stock
+	 * 
+	 * 	Purpose: Finds a Stock by Name and Date
+	 */
+	public Stock getStockByNameAndDate(String name, Date date){
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        Stock returnStock = null;
+        
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from Stock WHERE "
+					+ "StockName='" + name + "' AND "
+					+ "StockDate=" + date.getTime();
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+                returnStock = new Stock(resultSet.getString("StockName"),
+                							resultSet.getString("StockTicker"),
+                							resultSet.getLong("StockDate"),
+                							resultSet.getDouble("Price"));
+                break;
+            } 
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return returnStock;	
+	}
+	
+	/*	Name: getStockByTickerAndDate
+	 * 	Params:	String ticker, Date date
+	 * 	Return: Stock
+	 * 
+	 * 	Purpose: Finds a Stock by Ticker and Date
+	 */
+	public Stock getStockByTickerAndDate(String ticker, Date date){
+		Connection connection = null;
+		Statement statement = null;   
+        ResultSet resultSet = null;
+        Stock returnStock = null;
+        
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String selectSql = "SELECT * from Stock WHERE "
+					+ "StockTicker='" + ticker + "' AND "
+					+ "StockDate=" + date.getTime();
+			statement = connection.createStatement();  
+            resultSet = statement.executeQuery(selectSql);
+            
+            while (resultSet.next()) {
+                returnStock = new Stock(resultSet.getString("StockName"),
+                							resultSet.getString("StockTicker"),
+                							resultSet.getLong("StockDate"),
+                							resultSet.getDouble("Price"));
+                break;
+            } 
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+		return returnStock;	
 	}
 	
 	/*	Name: insertStock
@@ -421,20 +654,21 @@ public class StockDao {
         }
 	}
 
-	/*	Name: removeAllStocks
+	/*	#### WARNING WILL DELETE ALL RECORDS ####
+	 * 
+	 * 	Name: removeAllStocks
 	 * 	Params: Stock stock
 	 * 	Return:
 	 * 
-	 * 	Params: Remove all stocks by name
+	 * 	Params: Remove all stocks
 	 */
-	public void removeAllStocks(Stock stock){
+	public void removeAllStocks(){
 		Connection connection = null;
 		Statement statement = null;   
 		try {  
 			connection = DriverManager.getConnection(connectionString);
 			
-			String deleteSql = "DELETE FROM Stock "
-            		+ "WHERE StockName='" + stock.getName() + "';";
+			String deleteSql = "DELETE FROM Stock;";
 			statement = connection.createStatement();  
             statement.executeUpdate(deleteSql);
 		}  
@@ -446,7 +680,7 @@ public class StockDao {
         }
 	}
 	
-	/*	Name: removeAllStocks
+	/*	Name: removeAllStocksByName
 	 * 	Params: String name
 	 * 	Return:
 	 * 
@@ -471,7 +705,33 @@ public class StockDao {
         }
 	}
 	
-	/*	Name: removeAllStocks
+	/*	Name: removeStockByNameAndDate
+	 * 	Params: String name, Date date
+	 * 	Return:
+	 * 
+	 * 	Params: Remove a stock given name and date
+	 */
+	public void removeStockByNameAndDate(String name, Date date){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String deleteSql = "DELETE FROM Stock "
+            		+ "WHERE StockName='" + name + "'"
+            		+ "AND StockDate=" + date.getTime() + ";";
+			statement = connection.createStatement();  
+            statement.executeUpdate(deleteSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+	}
+
+	/*	Name: removeAllStocksByTicker
 	 * 	Params: String ticker
 	 * 	Return:
 	 * 
@@ -485,6 +745,32 @@ public class StockDao {
 			
 			String deleteSql = "DELETE FROM Stock "
             		+ "WHERE StockTicker='" + ticker + "';";
+			statement = connection.createStatement();  
+            statement.executeUpdate(deleteSql);
+		}  
+        catch (Exception e) {  
+            e.printStackTrace();
+        }  
+        finally {  
+            if (connection != null) try { connection.close(); } catch(Exception e) {}  
+        }
+	}
+
+	/*	Name: removeAllStocksByTickerAndDate
+	 * 	Params: String ticker, Date date
+	 * 	Return:
+	 * 
+	 * 	Params: Remove a stock given ticker and date
+	 */
+	public void removeAllStocksByTickerAndDate(String ticker, Date date){
+		Connection connection = null;
+		Statement statement = null;   
+		try {  
+			connection = DriverManager.getConnection(connectionString);
+			
+			String deleteSql = "DELETE FROM Stock "
+            		+ "WHERE StockTicker='" + ticker + "'"
+            		+ "AND StockDate=" + date.getTime() + ";";
 			statement = connection.createStatement();  
             statement.executeUpdate(deleteSql);
 		}  

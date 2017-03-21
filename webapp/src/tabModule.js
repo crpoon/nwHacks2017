@@ -23,6 +23,9 @@ class TabModule {
         var initialData = [];
 
         var config = {
+            chart: {
+                zoomType: "x"
+            },
             credits: {
                 enabled: false
             },
@@ -74,7 +77,8 @@ class TabModule {
                         initialData[i] = {
                                         id: responseData[i][0].indexName,
                                         name: responseData[i][0].indexName,
-                                        displayName: responseData[i][0].indexName + " (" + responseData[i][0].ticker + ")"
+                                        displayName: responseData[i][0].indexName + " (" + responseData[i][0].ticker + ")",
+                                        type: "line"
                                     }
                                     var data = [];
                                     for(var j = responseData[i].length - 1; j >= 0; j--) {
@@ -86,6 +90,8 @@ class TabModule {
                                     }
                                     initialData[i].data = data;
                                     initialData[i].increase = responseData[i][j+1].increase;
+                    }else {
+                        initialData[i] = {};
                     }
 
                 }
